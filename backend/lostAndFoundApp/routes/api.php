@@ -22,4 +22,5 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
+    Route::post('/user/update', [RegisteredUserController::class, 'update']); // Ensure this line is correct
 });
