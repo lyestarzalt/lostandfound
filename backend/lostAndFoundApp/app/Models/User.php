@@ -45,4 +45,8 @@ protected $fillable = [
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function foundItems()
+    {
+        return $this->hasMany(FoundItem::class);
+    }
 }

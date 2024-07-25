@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedSessionController extends Controller
@@ -33,7 +32,11 @@ class AuthenticatedSessionController extends Controller
 
         return response()->json(['error' => 'The provided credentials are incorrect.'], 401);
     }
-     public function destroy(Request $request)
+
+    /**
+     * Destroy an authenticated session.
+     */
+    public function destroy(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
 
