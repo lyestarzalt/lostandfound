@@ -1,0 +1,36 @@
+<!-- src/app/pages/account-settings/account-settings.page.html -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Account Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="account-settings">
+    <div class="avatar-container">
+      <img [src]="user?.picture ? getFullImageUrl(user.picture) : 'assets/avatar-placeholder.jepg'" class="avatar">
+      <input type="file" (change)="onFileChange($event)" hidden #fileInput>
+      <ion-button (click)="fileInput.click()">Change Picture</ion-button>
+    </div>
+    <form [formGroup]="accountForm" (ngSubmit)="updateProfile()">
+      <ion-item>
+        <ion-label position="floating">Name</ion-label>
+        <ion-input formControlName="name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input formControlName="email" type="email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Phone Number</ion-label>
+        <ion-input formControlName="phone_number"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Telegram ID</ion-label>
+        <ion-input formControlName="telegram_id"></ion-input>
+      </ion-item>
+      <ion-button expand="block" type="submit" [disabled]="!accountForm.valid">Update Profile</ion-button>
+    </form>
+    <ion-button expand="block" color="danger" (click)="logout()">Logout</ion-button>
+  </div>
+</ion-content>

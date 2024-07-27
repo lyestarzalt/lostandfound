@@ -1,0 +1,25 @@
+<!-- src/app/pages/item-detail/item-detail.page.html -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ item?.title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="item">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ item.title }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <img [src]="getFullImageUrl(item.picture)" alt="Item Picture" *ngIf="item.picture">
+        <p>{{ item.description }}</p>
+        <div style="height: 300px;" leaflet [leafletOptions]="options" [leafletLayers]="layers"></div>
+        <p><strong>Location:</strong> {{ item.latitude }}, {{ item.longitude }}</p>
+        <p><strong>Posted by:</strong> {{ item.user.name }}</p>
+        <p *ngIf="item.user.phone_number"><strong>Phone Number:</strong> {{ item.user.phone_number }}</p>
+        <p *ngIf="item.user.telegram_id"><strong>Telegram ID:</strong> {{ item.user.telegram_id }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

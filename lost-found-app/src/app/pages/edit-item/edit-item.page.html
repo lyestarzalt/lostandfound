@@ -1,0 +1,37 @@
+<!-- src/app/pages/edit-item/edit-item.page.html -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Edit Item</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="editItemForm" (ngSubmit)="updateItem()">
+    <ion-item>
+      <ion-label position="floating">Title</ion-label>
+      <ion-input formControlName="title"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-textarea formControlName="description"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Latitude</ion-label>
+      <ion-input formControlName="latitude" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Longitude</ion-label>
+      <ion-input formControlName="longitude" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Picture</ion-label>
+      <input type="file" (change)="onFileChange($event)">
+      <ion-note>{{ fileName }}</ion-note>
+    </ion-item>
+    <div *ngIf="item.picture">
+      <img [src]="getFullImageUrl(item.picture)" alt="Item Picture">
+    </div>
+    <div id="map" style="height: 300px;"></div>
+    <ion-button expand="block" type="submit" [disabled]="!editItemForm.valid">Update Item</ion-button>
+  </form>
+</ion-content>
