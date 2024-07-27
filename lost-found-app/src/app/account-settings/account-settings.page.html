@@ -6,9 +6,9 @@
 </ion-header>
 
 <ion-content>
-  <div class="account-settings">
+  <div class="account-settings" *ngIf="accountForm">
     <div class="avatar-container">
-      <img [src]="user?.picture ? getFullImageUrl(user.picture) : 'assets/avatar-placeholder.jepg'" class="avatar">
+      <img [src]="user?.picture ? getFullImageUrl(user.picture) : 'assets/avatar-placeholder.png'" class="avatar">
       <input type="file" (change)="onFileChange($event)" hidden #fileInput>
       <ion-button (click)="fileInput.click()">Change Picture</ion-button>
     </div>
