@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LostItemService } from '@services/lost-item.service';
 import { AlertController } from '@ionic/angular';
 import * as L from 'leaflet';
-import { icon, Marker } from 'leaflet';
 
 @Component({
   selector: 'app-edit-item',
@@ -63,6 +62,15 @@ export class EditItemPage implements OnInit {
   }
 
   initializeMap() {
+    const customIcon = L.icon({
+        iconUrl: 'assets/leaflet/marker-icon.png',
+        iconRetinaUrl: 'assets/leaflet/marker-icon-2x.png',
+        shadowUrl: 'assets/leaflet/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+      });
     if (this.latitude && this.longitude) { // Ensure latitude and longitude are available
       this.map = L.map('map', {
         center: [this.latitude, this.longitude],
@@ -74,16 +82,7 @@ export class EditItemPage implements OnInit {
         attribution: '© OpenStreetMap contributors'
       }).addTo(this.map);
 
-      const defaultIcon = icon({
-        iconUrl: 'assets/marker-icon.png',
-        shadowUrl: 'assets/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-      });
-
-      this.marker = L.marker([this.latitude, this.longitude], { draggable: true, icon: defaultIcon })
+      this.marker = L.marker([this.latitude, this.longitude], { draggable: true , icon: customIcon })
         .addTo(this.map)
         .bindPopup(this.item.title || '') // Ensure title is available
         .openPopup();
@@ -107,7 +106,7 @@ export class EditItemPage implements OnInit {
         });
 
         if (!this.marker) {
-          this.marker = L.marker([this.latitude, this.longitude], { draggable: true, icon: defaultIcon })
+          this.marker = L.marker([this.latitude, this.longitude], { draggable: true })
             .addTo(this.map)
             .bindPopup(this.item.title || '')
             .openPopup();

@@ -14,7 +14,8 @@ import { LeafletModule } from '@bluehalo/ngx-leaflet';
     CommonModule,
     FormsModule,
     IonicModule,
-    ItemDetailPageRoutingModule, LeafletModule
+    LeafletModule,
+    ItemDetailPageRoutingModule, 
   ],
   declarations: [ItemDetailPage]
 })

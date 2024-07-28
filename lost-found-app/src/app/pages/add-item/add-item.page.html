@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add Item</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="addItemForm" (ngSubmit)="onAddItem()">
+    <ion-item>
+      <ion-label position="floating">Title</ion-label>
+      <ion-input formControlName="title"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-input formControlName="description"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Latitude</ion-label>
+      <ion-input formControlName="latitude" readonly></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Longitude</ion-label>
+      <ion-input formControlName="longitude" readonly></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Picture</ion-label>
+      <ion-button expand="block" (click)="takePicture()">Take Picture</ion-button>
+      <ion-text>{{ fileName }}</ion-text>
+    </ion-item>
+    <div id="map" style="height: 300px;"></div>
+    <ion-button expand="block" type="submit">Add Item</ion-button>
+  </form>
+</ion-content>

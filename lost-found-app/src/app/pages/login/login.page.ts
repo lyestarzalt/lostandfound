@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {AuthService} from '@services/auth.service';
-import {NavController} from '@ionic/angular';
+import { AuthService } from '@services/auth.service';
+import { NavController } from '@ionic/angular';
+import { LoggingService } from '@services/logging.service'; // Import LoggingService
 
 @Component({
   selector: 'app-login',
@@ -14,10 +15,12 @@ export class LoginPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private loggingService: LoggingService // Inject LoggingService
   ) { }
 
   ngOnInit() {
+    this.loggingService.info('LoginPage initialized');
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -27,13 +30,23 @@ export class LoginPage implements OnInit {
   onLogin() {
     if (this.loginForm.valid) {
       const credentials = this.loginForm.value;
-      this.authService.login(credentials).subscribe(() => {
-        this.navCtrl.navigateRoot('/tabs'); // Update this to your home page route
-      });
+      this.loggingService.info('Logging in with credentials: ' + JSON.stringify(credentials));
+      this.authService.login(credentials).subscribe(
+        () => {
+          this.loggingService.info('User logged in successfully, navigating to home page');
+          this.navCtrl.navigateRoot('/tabs'); // Update this to your home page route
+        },
+        (error) => {
+          this.loggingService.error('Error logging in: ' + error);
+        }
+      );
+    } else {
+      this.loggingService.error('Login form is invalid');
     }
   }
 
   navigateToRegister() {
+    this.loggingService.info('Navigating to RegisterPage');
     this.navCtrl.navigateForward('/register');
   }
 }

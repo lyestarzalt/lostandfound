@@ -1,6 +1,9 @@
 <!-- src/app/pages/account-settings/account-settings.page.html -->
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>Account Settings</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -8,7 +11,7 @@
 <ion-content>
   <div class="account-settings" *ngIf="accountForm">
     <div class="avatar-container">
-      <img [src]="user?.picture ? getFullImageUrl(user.picture) : 'assets/avatar-placeholder.png'" class="avatar">
+      <img [src]="imageUrl || 'assets/avatar-placeholder.jpeg'" class="avatar">
       <input type="file" (change)="onFileChange($event)" hidden #fileInput>
       <ion-button (click)="fileInput.click()">Change Picture</ion-button>
     </div>

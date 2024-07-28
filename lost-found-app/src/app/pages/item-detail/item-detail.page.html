@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ item?.title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="item">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ item.title }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <img [src]="item.picture" alt="Item Picture" *ngIf="item.picture">
+        <p>{{ item.description }}</p>
+        <div id="map" style="height: 300px;"></div>
+        <p><strong>Location:</strong> {{ item.latitude }}, {{ item.longitude }}</p>
+        <p><strong>Posted by:</strong> {{ item.user.name }}</p>
+          <p *ngIf="item.user.phone_number">
+            <strong>Phone Number:</strong>
+            <a [href]="'tel:' + item.user.phone_number">{{ item.user.phone_number }}</a>
+          </p>
+          <p *ngIf="item.user.telegram_id">
+            <strong>Telegram ID:</strong>
+            <a [href]="'tg://resolve?domain=' + item.user.telegram_id">{{ item.user.telegram_id }}</a>
+          </p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

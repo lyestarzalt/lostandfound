@@ -3,19 +3,28 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/c
 import { Observable, from } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { AuthService } from '@services/auth.service';
+import { LoggingService } from '@services/logging.service'; // Import LoggingService
+
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private loggingService: LoggingService // Inject LoggingService
+  ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    this.loggingService.debug('Intercepting HTTP request...');
     return from(this.authService.getUserData()).pipe(
       mergeMap(user => {
         if (user && user.token) {
+          this.loggingService.debug('User token found, adding Authorization header');
           req = req.clone({
             setHeaders: {
               Authorization: `Bearer ${user.token}`
             }
           });
+        } else {
+          this.loggingService.debug('No user token found');
         }
         return next.handle(req);
       })

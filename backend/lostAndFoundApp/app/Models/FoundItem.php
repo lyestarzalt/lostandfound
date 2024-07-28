@@ -17,12 +17,11 @@ class FoundItem extends Model
         'picture',
     ];
 
-     public function getPictureAttribute($value)
+   public function getPictureAttribute($value)
     {
-        return $value ? Storage::url($value) : null;
+        return $value ? url('storage/' . $value) : null;
     }
-
-      public function user()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

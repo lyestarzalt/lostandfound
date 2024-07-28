@@ -1,6 +1,8 @@
-<!-- src/app/pages/edit-item/edit-item.page.html -->
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/my-listings"></ion-back-button>
+    </ion-buttons>
     <ion-title>Edit Item</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -29,7 +31,7 @@
       <ion-note>{{ fileName }}</ion-note>
     </ion-item>
     <div *ngIf="item.picture">
-      <img [src]="getFullImageUrl(item.picture)" alt="Item Picture">
+      <img [src]="item.picture" alt="Item Picture">
     </div>
     <div id="map" style="height: 300px;"></div>
     <ion-button expand="block" type="submit" [disabled]="!editItemForm.valid">Update Item</ion-button>

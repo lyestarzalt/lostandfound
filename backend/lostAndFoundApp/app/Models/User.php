@@ -45,6 +45,10 @@ protected $fillable = [
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function getPictureAttribute($value)
+    {
+        return $value ? url('storage/' . $value) : null;
+    }
     public function foundItems()
     {
         return $this->hasMany(FoundItem::class);

@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Home</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-card *ngFor="let item of items" (click)="viewItem(item)">
+      <ion-card-header>
+        <ion-card-title class="card-title">{{ item.title }}</ion-card-title>
+      </ion-card-header>
+      <div class="image-container">
+        <ion-img class="card-img" [src]="item.picture"></ion-img>
+      </div>
+      <ion-card-content>
+        <p class="card-description">{{ item.description }}</p>
+        <p class="card-date">{{ item.created_at | date:'mediumDate' }}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addItem()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
