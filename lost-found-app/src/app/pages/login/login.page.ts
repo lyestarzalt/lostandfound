@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '@services/auth.service';
 import { NavController } from '@ionic/angular';
-import { LoggingService } from '@services/logging.service'; // Import LoggingService
+import { LoggingService } from '@services/logging.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +16,7 @@ export class LoginPage implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private navCtrl: NavController,
-    private loggingService: LoggingService // Inject LoggingService
+    private loggingService: LoggingService 
   ) { }
 
   ngOnInit() {
@@ -34,7 +34,7 @@ export class LoginPage implements OnInit {
       this.authService.login(credentials).subscribe(
         () => {
           this.loggingService.info('User logged in successfully, navigating to home page');
-          this.navCtrl.navigateRoot('/tabs'); // Update this to your home page route
+          this.navCtrl.navigateRoot('/tabs'); 
         },
         (error) => {
           this.loggingService.error('Error logging in: ' + error);

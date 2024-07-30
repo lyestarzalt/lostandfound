@@ -1,11 +1,12 @@
-// src/app/services/lost-item.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { LoadingService } from './loading.service';
-import { LoggingService } from './logging.service'; // Import LoggingService
+import { LoggingService } from './logging.service';
 import { catchError, finalize, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { Preferences } from '@capacitor/preferences';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class LostItemService {
   constructor(
     private http: HttpClient,
     private loadingService: LoadingService,
-    private loggingService: LoggingService // Inject LoggingService
+    private loggingService: LoggingService,
+    private router: Router // Inject Router
   ) {}
 
   getAllItems() {
@@ -25,10 +27,7 @@ export class LostItemService {
     return this.http.get(`${this.apiUrl}/found-items`).pipe(
       tap(() => this.loggingService.info('Fetched all items successfully.')),
       finalize(() => this.loadingService.hideLoading()),
-      catchError(error => {
-        this.loggingService.error('Error fetching all items: ' + error);
-        return this.handleError(error);
-      })
+      catchError(error => this.handleError(error))
     );
   }
 
@@ -36,12 +35,9 @@ export class LostItemService {
     this.loadingService.showLoading();
     this.loggingService.info(`Fetching item with ID: ${id}...`);
     return this.http.get(`${this.apiUrl}/found-items/${id}`).pipe(
-      tap(() => this.loggingService.info(`Fetched item with ID: ${id} successfully. `)),
+      tap(() => this.loggingService.info(`Fetched item with ID: ${id} successfully.`)),
       finalize(() => this.loadingService.hideLoading()),
-      catchError(error => {
-        this.loggingService.error(`Error fetching item with ID: ${id} - ` + error);
-        return this.handleError(error);
-      })
+      catchError(error => this.handleError(error))
     );
   }
 
@@ -51,10 +47,7 @@ export class LostItemService {
     return this.http.post(`${this.apiUrl}/found-items`, data).pipe(
       tap(() => this.loggingService.info('Item added successfully.')),
       finalize(() => this.loadingService.hideLoading()),
-      catchError(error => {
-        this.loggingService.error('Error adding item: ' + error);
-        return this.handleError(error);
-      })
+      catchError(error => this.handleError(error))
     );
   }
 
@@ -64,10 +57,7 @@ export class LostItemService {
     return this.http.get(`${this.apiUrl}/my-lost-items`).pipe(
       tap(() => this.loggingService.info('Fetched my items successfully.')),
       finalize(() => this.loadingService.hideLoading()),
-      catchError(error => {
-        this.loggingService.error('Error fetching my items: ' + error);
-        return this.handleError(error);
-      })
+      catchError(error => this.handleError(error))
     );
   }
 
@@ -77,10 +67,7 @@ export class LostItemService {
     return this.http.put(`${this.apiUrl}/found-items/${id}`, data).pipe(
       tap(() => this.loggingService.info(`Item with ID: ${id} updated successfully.`)),
       finalize(() => this.loadingService.hideLoading()),
-      catchError(error => {
-        this.loggingService.error(`Error updating item with ID: ${id} - ` + error);
-        return this.handleError(error);
-      })
+      catchError(error => this.handleError(error))
     );
   }
 
@@ -90,16 +77,17 @@ export class LostItemService {
     return this.http.delete(`${this.apiUrl}/found-items/${id}`).pipe(
       tap(() => this.loggingService.info(`Item with ID: ${id} deleted successfully.`)),
       finalize(() => this.loadingService.hideLoading()),
-      catchError(error => {
-        this.loggingService.error(`Error deleting item with ID: ${id} - ` + error);
-        return this.handleError(error);
-      })
+      catchError(error => this.handleError(error))
     );
   }
 
-  private handleError(error: any) {
+ async  handleError(error: any) {
     this.loggingService.error('An error occurred: ' + error);
     console.error('An error occurred:', error);
+    if (error.status >= 400 && error.status < 500) {
+      await Preferences.remove({ key: 'user' });
+      this.router.navigate(['/landing']);
+    }
     return throwError('Something bad happened; please try again later.');
   }
 }

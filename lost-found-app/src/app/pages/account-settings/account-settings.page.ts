@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '@services/auth.service';
 import { AlertController } from '@ionic/angular';
 import { LoggingService } from '@services/logging.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account-settings',
@@ -19,7 +20,8 @@ export class AccountSettingsPage implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private alertController: AlertController,
-    private loggingService: LoggingService
+    private loggingService: LoggingService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -31,7 +33,7 @@ export class AccountSettingsPage implements OnInit {
     this.authService.getUser(true).subscribe(
       (res: any) => {
         this.user = res;
-        this.imageUrl = this.user.picture;  // Use full URL directly
+        this.imageUrl = this.user.picture;
         this.loggingService.info('User data retrieved successfully');
         this.initializeForm();
       },
@@ -59,7 +61,7 @@ export class AccountSettingsPage implements OnInit {
 
       const reader = new FileReader();
       reader.onload = () => {
-        this.imageUrl = reader.result; // Update the image URL
+        this.imageUrl = reader.result; 
       };
       reader.readAsDataURL(file);
 
@@ -100,7 +102,7 @@ refreshUserData() {
   this.authService.getUser().subscribe(
     (res: any) => {
       this.user = res;
-      this.imageUrl = this.user.picture;  // Use full URL directly
+      this.imageUrl = this.user.picture;  
       this.loggingService.info('User data refreshed successfully');
       this.initializeForm();
     },
@@ -108,7 +110,7 @@ refreshUserData() {
       this.loggingService.error('Error refreshing user data: ' + error);
     },
     () => {
-      this.authService.loadingService.hideLoading(); // Ensure this line is added in the complete callback
+      this.authService.loadingService.hideLoading();
     }
   );
 }
@@ -118,7 +120,7 @@ refreshUserData() {
     this.authService.logout().subscribe(
       () => {
         this.loggingService.info('User logged out successfully');
-        // Implement redirect to login page after logout
+            this.router.navigate(['/landing']); 
       },
       (error) => {
         this.loggingService.error('Error logging out: ' + error);

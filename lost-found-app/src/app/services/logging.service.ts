@@ -8,7 +8,7 @@ import { Preferences } from '@capacitor/preferences';
 export class LoggingService {
   async log(message: string, level: 'INFO' | 'ERROR' | 'DEBUG') {
     const logEntry = `${new Date().toISOString()} [${level}] ${message}`;
-    console.log(logEntry); // Output to console for immediate visibility
+    console.log(logEntry);
 
     // Store log in local storage
     const { value } = await Preferences.get({ key: 'logs' });
